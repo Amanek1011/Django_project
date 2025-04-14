@@ -22,7 +22,7 @@ from core import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('library', include(apps.library.urls))
+    path('library/', include('apps.library.urls'))
 ]
 
 if settings.DEBUG:
