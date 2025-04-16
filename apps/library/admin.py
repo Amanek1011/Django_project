@@ -19,3 +19,12 @@ class SongAdmin(admin.ModelAdmin):
     list_filter = ('id', 'author', 'name')
     search_fields = ('id', 'author', 'name')
     ordering = ('id', 'author', 'name')
+
+
+@admin.register(Reviews)
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name','email', 'message')
+    list_display_links = ('id', 'name', 'email', 'message')
+    list_filter = ('id', 'name', 'email', 'message')
+    search_fields = ('id', 'name',  'email', 'message')
+    ordering = ('id', 'name', 'email', 'message')

@@ -40,3 +40,14 @@ class Book(models.Model):
        verbose_name_plural = 'Books'
 
 
+class Reviews(models.Model):
+    name = models.CharField(max_length=250)
+    email = models.EmailField()
+    message = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'review'
+        verbose_name_plural = 'reviews'
