@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Отзывы</title>
+</head>
+<body>
+    <h1>Отзывы пользователей</h1>
+
+    {% for review in reviews %}
+        <div style="margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
+            <p><strong>Имя:</strong> {{ review.name }}</p>
+            <p><strong>Email:</strong> {{ review.email }}</p>
+            <p><strong>Сообщение:</strong> {{ review.message }}</p>
+        </div>
+    {% empty %}
+        <p>Пока нет отзывов.</p>
+    {% endfor %}
+</body>
+</html>

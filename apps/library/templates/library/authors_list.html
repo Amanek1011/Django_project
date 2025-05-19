@@ -2,15 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-<<<<<<< HEAD
     <title>Authors</title>
 </head>
 <body>
-<h1>Страница с авторами</h1>
-{% for author in authors %}
-<p> Author: {{ author.name }} {{ author.surname }}</p>
-<p> Album Count: {{ author.album_count }}</p>
-<img src="{{ author.image.url }}" alt="{{ author.name }}" width="200" height="200">
-{% endfor %}
+    <h1>Страница с авторами</h1>
+    {% for author in authors %}
+        <div style="margin-bottom: 20px;">
+            <p><strong>Автор:</strong> {{ author.name }} {{ author.surname }}</p>
+
+            {% if author.image %}
+                <img src="{{ author.image.url }}" alt="{{ author.name }}" width="200" height="200">
+            {% else %}
+                <p>Нет изображения</p>
+            {% endif %}
+
+            {# Показываем album_count, если он есть #}
+            {% if author.album_count %}
+                <p>Количество альбомов: {{ author.album_count }}</p>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>Авторы не найдены.</p>
+    {% endfor %}
 </body>
 </html>
