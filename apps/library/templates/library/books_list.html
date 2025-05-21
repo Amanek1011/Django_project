@@ -1,15 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 <h1> Страница с книгами</h1>
-{% for book in books%}
-<p>Book: {{book.name}}</p>
-<p>Author: {{book.author}} </p>
-<img src="{{book.book_image.url}}" alt="{{book.name}}" width="200" height="200">
+{% for book in books %}
+    <p>Book: {{ book.name }}</p>
+    <p>Author: {{ book.author.name }}</p>
+    <img src="{{ book.book_image.url }}" alt="{{ book.name }}" width="200" height="200">
+    <p>
+        <a href="{% url 'add_to_cart' book.id %}">Добавить в корзину</a> |
+        <a href="{% url 'add_book_fav' book.id %}">В избранные книги</a> |
+        <a href="{% url 'add_author_fav' book.author.id %}">В избранные авторы</a>
+    </p>
 {% endfor %}
-</body>
-</html>
