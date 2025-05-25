@@ -11,5 +11,6 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
     path('add_to_cart/<int:book_id>/', views.add_to_cart, name='add_to_cart'),
     path('add_to_favorites/book/<int:book_id>/', views.add_to_favorites, name='add_book_fav'),
-    path('add_to_favorites/author/<int:author_id>/', views.add_to_favorites, name='add_author_fav'),
+    path('remove-from-cart/<int:book_id>/', views.remove_from_cart, name='remove_from_cart'),
+    path('remove-from-favorites/<int:book_id>/', views.remove_from_favorites, name='remove_from_favorites'),
 ]

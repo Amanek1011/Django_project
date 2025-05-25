@@ -5,6 +5,11 @@
     <title>Authors</title>
 </head>
 <body>
+<p>
+    <a href="{% url 'home' %}">
+        <button>🏠 На главную</button>
+    </a>
+</p>
     <h1>Страница с авторами</h1>
     {% for author in authors %}
         <div style="margin-bottom: 20px;">

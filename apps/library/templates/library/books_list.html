@@ -1,11 +1,102 @@
-<h1> Страница с книгами</h1>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Книги</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .message {
+            background-color: #e0ffe0;
+            border: 1px solid #b2d8b2;
+            padding: 10px;
+            margin-bottom: 20px;
+            color: green;
+            border-radius: 5px;
+        }
+        .book {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .book img {
+            margin-bottom: 10px;
+            display: block;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 30px;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 15px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+        }
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Список книг</h1>
+
+<!-- Навигация -->
+<p>
+    <a href="{% url 'home' %}">
+        <button>🏠 На главную</button>
+    </a>
+</p>
+
+<!-- Сообщения -->
+{% if messages %}
+    {% for message in messages %}
+        <div class="message">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+
+<!-- Книги -->
 {% for book in books %}
-    <p>Book: {{ book.name }}</p>
-    <p>Author: {{ book.author.name }}</p>
-    <img src="{{ book.book_image.url }}" alt="{{ book.name }}" width="200" height="200">
-    <p>
-        <a href="{% url 'add_to_cart' book.id %}">Добавить в корзину</a> |
-        <a href="{% url 'add_book_fav' book.id %}">В избранные книги</a> |
-        <a href="{% url 'add_author_fav' book.author.id %}">В избранные авторы</a>
-    </p>
+    <div class="book">
+        <p><strong>Название:</strong> {{ book.name }}</p>
+        <p><strong>Автор:</strong> {{ book.author.name }}  {{book.author.surname}}</p>
+        {% if book.book_image %}
+            <img src="{{ book.book_image.url }}" alt="{{ book.name }}" width="200" height="200">
+        {% endif %}
+
+        <p>
+            <!-- Корзина -->
+            {% if profile and book in profile.cart.all %}
+                ✅ В корзине
+            {% else %}
+                <a href="{% url 'add_to_cart' book.id %}">Добавить в корзину</a>
+            {% endif %}
+
+            |
+
+            <!-- Избранное -->
+            {% if profile and book in profile.favorite_books.all %}
+                ⭐ В избранном
+            {% else %}
+                <a href="{% url 'add_book_fav' book.id %}">В избранное</a>
+            {% endif %}
+
+            |
+
+            <!-- Оставить отзыв -->
+            <a href="{% url 'create_review' book.id %}">Оставить отзыв</a>
+        </p>
+    </div>
+{% empty %}
+    <p>Книги не найдены.</p>
 {% endfor %}
+
+</body>
+</html>

@@ -1,20 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>Отзывы</title>
+    <style>
+        .review {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Отзывы пользователей</h1>
+<p>
+    <a href="{% url 'home' %}">
+        <button>🏠 На главную</button>
+    </a>
+</p>
 
-    {% for review in reviews %}
-        <div style="margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
-            <p><strong>Имя:</strong> {{ review.name }}</p>
-            <p><strong>Email:</strong> {{ review.email }}</p>
-            <p><strong>Сообщение:</strong> {{ review.message }}</p>
-        </div>
-    {% empty %}
-        <p>Пока нет отзывов.</p>
-    {% endfor %}
+<h1>Все отзывы</h1>
+
+{% for review in reviews %}
+    <div class="review">
+        <p><strong>Книга:</strong> {{ review.book.name }}</p>
+        <p><strong>Пользователь:</strong> {{ review.user.username }}</p>
+        <p><strong>Оценка:</strong> {{ review.rating }}</p>
+        <p><strong>Отзыв:</strong> {{ review.text }}</p>
+        <p><small>Дата: {{ review.created_at }}</small></p>
+    </div>
+{% empty %}
+    <p>Отзывов пока нет.</p>
+{% endfor %}
+
 </body>
 </html>

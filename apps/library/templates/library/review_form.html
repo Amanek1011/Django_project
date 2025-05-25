@@ -1,16 +1,7 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Оставить отзыв</title>
-</head>
-<body>
-    <h1>Оставить отзыв</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Отправить</button>
-    </form>
-    <p><a href="{% url 'reviews_list' %}">Посмотреть все отзывы</a></p>
-</body>
-</html>
+<h2>Оставить отзыв на "{{ book.name }}"</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Отправить</button>
+</form>
+<a href="{% url 'book_detail' book.id %}">Назад к книге</a>

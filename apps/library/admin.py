@@ -21,10 +21,8 @@ class SongAdmin(admin.ModelAdmin):
     ordering = ('id', 'author', 'name')
 
 
-@admin.register(Reviews)
+@admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name','email', 'message')
-    list_display_links = ('id', 'name', 'email', 'message')
-    list_filter = ('id', 'name', 'email', 'message')
-    search_fields = ('id', 'name',  'email', 'message')
-    ordering = ('id', 'name', 'email', 'message')
+    list_display = ['book', 'user', 'rating', 'created_at']  # ← убери name, email, message
+    ordering = ['created_at']  # ← тоже убери name, email, message
+    list_filter = ['book', 'user', 'rating']  # ← убери несуществующие поля

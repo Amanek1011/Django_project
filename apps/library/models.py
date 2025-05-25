@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 class Author(models.Model):
@@ -40,14 +41,16 @@ class Book(models.Model):
        verbose_name_plural = 'Books'
 
 
-class Reviews(models.Model):
-    name = models.CharField(max_length=250)
-    email = models.EmailField()
-    message = models.TextField()
+class Review(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='reviews')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    text = models.TextField()
+    rating = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        return f"Отзыв на {self.book.name} от {self.user.username}"
 
     class Meta:
-        verbose_name = 'review'
-        verbose_name_plural = 'reviews'
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'

@@ -1,10 +1,22 @@
 <h1>Добро пожаловать, {{ user.username }}!</h1>
 <p>Email: {{ user.email }}</p>
 
+<p>
+    <a href="{% url 'home' %}">
+        <button>🏠 На главную</button>
+    </a>
+</p>
+
 <h2>📚 Книги в корзине:</h2>
 <ul>
     {% for book in cart_books %}
-        <li>{{ book.name }} — {{ book.author.name }}</li>
+        <li>
+            {{ book.name }} — {{ book.author.name }} {{ book.author.surname }}
+            <form method="post" action="{% url 'remove_from_cart' book.id %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Удалить из корзины</button>
+            </form>
+        </li>
     {% empty %}
         <li>Корзина пуста.</li>
     {% endfor %}
@@ -13,17 +25,14 @@
 <h2>⭐ Избранные книги:</h2>
 <ul>
     {% for book in favorite_books %}
-        <li>{{ book.name }}</li>
+        <li>
+            {{ book.name }} — {{ book.author.name }} {{ book.author.surname }}
+            <form method="post" action="{% url 'remove_from_favorites' book.id %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Удалить из избранного</button>
+            </form>
+        </li>
     {% empty %}
         <li>Нет избранных книг.</li>
-    {% endfor %}
-</ul>
-
-<h2>👨‍💼 Избранные авторы:</h2>
-<ul>
-    {% for author in favorite_authors %}
-        <li>{{ author.name }}</li>
-    {% empty %}
-        <li>Нет избранных авторов.</li>
     {% endfor %}
 </ul>

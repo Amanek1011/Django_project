@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ book.name }}</title>
+    <style>
+        .book-image {
+            max-width: 300px;
+            height: auto;
+            border-radius: 8px;
+        }
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #eee;
+            border: 1px solid #ccc;
+            text-decoration: none;
+            color: #333;
+            border-radius: 5px;
+        }
+        .back-button:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>{{ book.name }}</h1>
+    <p><strong>Автор:</strong> {{ book.author.name }}</p>
+
+    <img src="{{ book.book_image.url }}" alt="{{ book.name }}" class="book-image">
+
+    {% if book.description %}
+        <p><strong>Описание:</strong> {{ book.description }}</p>
+    {% endif %}
+
+    <a href="{% url 'books_list' %}" class="back-button">← Назад к книгам</a>
+
+</body>
+</html>

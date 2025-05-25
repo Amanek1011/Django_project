@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
@@ -44,7 +45,7 @@ def profile_view(request):
         # Если профиль не найден, создаем новый
         profile = Profile.objects.create(user=request.user)
 
-    return render(request, 'profile.html', {
+    return render(request, 'users/profile.html', {
         'user': request.user,
         'cart_books': profile.cart.all(),
         'favorite_books': profile.favorite_books.all(),
@@ -56,15 +57,31 @@ def add_to_cart(request, book_id):
     profile = Profile.objects.get(user=request.user)
     book = get_object_or_404(Book, id=book_id)
     profile.cart.add(book)
+    messages.success(request, f'Книга «{book.name}» добавлена в корзину!')
     return redirect('books_list')
 
+
 @login_required
-def add_to_favorites(request, book_id=None, author_id=None):
+def add_to_favorites(request, book_id=None):
     profile = Profile.objects.get(user=request.user)
     if book_id:
         book = get_object_or_404(Book, id=book_id)
         profile.favorite_books.add(book)
-    if author_id:
-        author = get_object_or_404(Author, id=author_id)
-        profile.favorite_authors.add(author)
+        messages.success(request, f'Книга «{book.name}» добавлена в избранное!')
     return redirect('books_list')
+
+@login_required
+def remove_from_cart(request, book_id):
+    if request.method == 'POST':
+        profile = request.user.profile
+        book = get_object_or_404(Book, id=book_id)
+        profile.cart.remove(book)
+    return redirect('profile')
+
+@login_required
+def remove_from_favorites(request, book_id):
+    if request.method == 'POST':
+        profile = request.user.profile
+        book = get_object_or_404(Book, id=book_id)
+        profile.favorite_books.remove(book)
+    return redirect('profile')

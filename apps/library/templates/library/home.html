@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная страница</title>
+</head>
+<body>
+    <h1>Добро пожаловать на главную страницу!</h1>
+    <nav>
+        <ul>
+            <li><a href="{% url 'authors_list' %}">Авторы</a></li>
+            <li><a href="{% url 'books_list' %}">Книги</a></li>
+            <li><a href="{% url 'reviews_list' %}">Все отзывы</a></li>
+
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'profile' %}">Профиль</a></li>
+            {% else %}
+                <li><a href="{% url 'register' %}">Регистрация</a></li>
+                <li><a href="{% url 'login' %}">Вход</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</body>
+</html>

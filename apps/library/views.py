@@ -1,34 +1,46 @@
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 
 from apps.library.forms import ReviewsForm
-from apps.library.models import Author, Book, Reviews
+from apps.library.models import Author, Book, Review
 
 
-def hello(request):
-    return HttpResponse('Hello, world!')
+def home(request):
+    return render(request, 'library/home.html')
 
 
 def authors_list(request):
     authors = Author.objects.all()
     return render(request,'library/authors_list.html', {'authors': authors})
 
+
 def books_list(request):
     books = Book.objects.all()
     return render(request, 'library/books_list.html', {'books': books})
 
 
-def create_review(request):
+def create_review(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
     if request.method == 'POST':
         form = ReviewsForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('reviews_list')
+            review = form.save(commit=False)
+            review.book = book
+            review.user = request.user
+            review.save()
+            messages.success(request, 'Отзыв успешно добавлен.')
+            return redirect('book_detail', book_id=book.id)
     else:
         form = ReviewsForm()
+    return render(request, 'library/review_form.html', {'form': form, 'book': book})
 
-    return render(request, 'library/review_form.html', {'form': form})
+
+def book_detail(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+    reviews = book.reviews.all()
+    return render(request, 'library/book_detail.html', {'book': book, 'reviews': reviews})
+
 
 def reviews_list(request):
-    reviews = Reviews.objects.all().order_by('-id')
+    reviews = Review.objects.select_related('book', 'user').all()
     return render(request, 'library/reviews_list.html', {'reviews': reviews})
